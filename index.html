@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVORA SUSTAINA | Eco-Friendly & Sustainable Products</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            50: '#F4F7F4',
+                            100: '#E8F5E9',
+                            200: '#C8E6C9',
+                            500: '#3A5A40',
+                            600: '#2E7D32',
+                            700: '#1B5E20',
+                            800: '#133E18'
+                        },
+                        sand: '#F9FBF8',
+                        slateDark: '#1A1A1A',
+                        slateMuted: '#4A5568',
+                        pastelLeaf: '#A3B18A'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F9FBF8; color: #1A1A1A; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-panel { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); }
+        .badge-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-sage-100 selection:text-sage-700">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-sage-700 text-white text-xs py-2 px-4 text-center font-medium flex justify-center items-center gap-2">
+        <i class="fa-solid fa-leaf text-pastelLeaf"></i>
+        <span>Join the Zero-Waste Movement: Free Standard Shipping on Orders Over $50! Use code <strong class="underline decoration-pastelLeaf underline-offset-2">ECO10</strong> for 10% OFF</span>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="#" onclick="filterByCategory('All')" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center text-sage-600 group-hover:bg-sage-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-seedling text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl sm:text-2xl font-bold tracking-wider text-sage-700 uppercase block leading-none">EVORA</span>
+                        <span class="text-[10px] font-semibold tracking-[0.25em] text-gray-500 uppercase block mt-1">SUSTAINA</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-gray-700">
+                    <button onclick="filterByCategory('All')" class="hover:text-sage-600 transition-colors py-2 border-b-2 border-transparent hover:border-sage-600">All Products</button>
+                    <button onclick="filterByCategory('Bamboo Products')" class="hover:text-sage-600 transition-colors py-2 border-b-2 border-transparent hover:border-sage-600">Bamboo</button>
+                    <button onclick="filterByCategory('Reusable Bags')" class="hover:text-sage-600 transition-colors py-2 border-b-2 border-transparent hover:border-sage-600">Reusable Bags</button>
+                    <button onclick="filterByCategory('Reusable Stationery')" class="hover:text-sage-600 transition-colors py-2 border-b-2 border-transparent hover:border-sage-600">Stationery</button>
+                    <button onclick="filterByCategory('Eco Books')" class="hover:text-sage-600 transition-colors py-2 border-b-2 border-transparent hover:border-sage-600">Eco Books</button>
+                    <button onclick="toggleBackendModal()" class="text-xs bg-sage-50 text-sage-700 px-3 py-1.5 rounded-full hover:bg-sage-100 transition-colors border border-sage-200">
+                        <i class="fa-solid fa-code mr-1"></i> Architecture Specs
+                    </button>
+                </nav>
+
+                <!-- Search & Action Icons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Global Search Bar Input -->
+                    <div class="relative hidden sm:block w-48 md:w-64">
+                        <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search eco products..." 
+                            class="w-full pl-9 pr-4 py-2 text-xs bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-sage-500 focus:bg-white transition-all">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    </div>
+
+                    <!-- Wishlist Button -->
+                    <button onclick="toggleWishlistModal()" class="relative p-2 text-gray-600 hover:text-sage-600 transition-colors rounded-full hover:bg-gray-50" title="View Wishlist">
+                        <i class="fa-regular fa-heart text-lg"></i>
+                        <span id="wishlistCountBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+
+                    <!-- Cart Drawer Trigger Button -->
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 bg-sage-600 hover:bg-sage-700 text-white rounded-full transition-all duration-300 shadow-sm hover:shadow flex items-center justify-center" title="Shopping Cart">
+                        <i class="fa-solid fa-basket-shopping text-base"></i>
+                        <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-amber-500 text-gray-900 text-[11px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white badge-pulse">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Trigger -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-gray-600 hover:text-sage-600 focus:outline-none">
+                        <i id="mobileMenuIcon" class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu Dropdown -->
+            <div id="mobileMenu" class="hidden lg:hidden py-4 border-t border-gray-100 space-y-3">
+                <div class="px-2 pb-2">
+                    <input type="text" id="mobileSearchInput" onkeyup="handleSearchMobile()" placeholder="Search eco products..." 
+                        class="w-full pl-9 pr-4 py-2 text-xs bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-sage-500">
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-sm font-medium">
+                    <button onclick="filterByCategory('All'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-sage-50">All Items</button>
+                    <button onclick="filterByCategory('Bamboo Products'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-sage-50">Bamboo</button>
+                    <button onclick="filterByCategory('Reusable Bags'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-sage-50">Reusable Bags</button>
+                    <button onclick="filterByCategory('Reusable Stationery'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-sage-50">Stationery</button>
+                    <button onclick="filterByCategory('Eco Books'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg hover:bg-sage-50">Eco Books</button>
+                    <button onclick="toggleBackendModal(); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg bg-sage-50 text-sage-700"><i class="fa-solid fa-code mr-1"></i> Architecture</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Interactive Hero Slider Section -->
+        <section class="relative bg-sage-50 overflow-hidden border-b border-sage-100">
+            <div id="heroCarousel" class="relative min-h-[420px] md:min-h-[480px] flex items-center">
+                
+                <!-- Slide 1 -->
+                <div class="hero-slide transition-opacity duration-700 ease-in-out w-full opacity-100 absolute inset-0 flex items-center" id="slide-0">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="inline-block px-3 py-1 bg-sage-100 text-sage-700 text-xs font-semibold uppercase tracking-wider rounded-full">🌱 100% Plastic Free Collection</span>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">Elevate Your Everyday With Sustainable Living</h1>
+                            <p class="text-gray-600 text-sm sm:text-base leading-relaxed">Discover handcrafted organic bamboo items, reusable cotton bags, and seed notebooks designed to eliminate single-use waste.</p>
+                            <div class="pt-2 flex flex-wrap gap-3">
+                                <button onclick="scrollToProducts()" class="bg-sage-600 hover:bg-sage-700 text-white font-medium px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all text-sm flex items-center gap-2">
+                                    Shop Collection <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                                <button onclick="filterByCategory('Bamboo Products'); scrollToProducts()" class="bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 font-medium px-5 py-3 rounded-full text-sm transition-all">
+                                    Explore Bamboo
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80" alt="Sustainable Lifestyle" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white text-xs bg-black/40 backdrop-blur-md p-3 rounded-xl border border-white/20">
+                                <p class="font-semibold"><i class="fa-solid fa-earth-americas text-pastelLeaf mr-1"></i> Carbon Neutral Delivery</p>
+                                <p class="text-gray-200 text-[11px] mt-0.5">Every purchase plants 1 tree in depleted ecosystems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="hero-slide transition-opacity duration-700 ease-in-out w-full opacity-0 pointer-events-none absolute inset-0 flex items-center" id="slide-1">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-semibold uppercase tracking-wider rounded-full">📚 Mindful Knowledge & Seeds</span>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">Plantable Journals & Green Literature</h1>
+                            <p class="text-gray-600 text-sm sm:text-base leading-relaxed">Write your ideas in plantable seed paper journals and explore zero-waste literature that guides a conscious lifestyle.</p>
+                            <div class="pt-2 flex flex-wrap gap-3">
+                                <button onclick="filterByCategory('Reusable Stationery'); scrollToProducts()" class="bg-sage-600 hover:bg-sage-700 text-white font-medium px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all text-sm flex items-center gap-2">
+                                    Shop Stationery <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                                <button onclick="filterByCategory('Eco Books'); scrollToProducts()" class="bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 font-medium px-5 py-3 rounded-full text-sm transition-all">
+                                    Browse Eco Books
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-xl">
+                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1000&q=80" alt="Plantable Stationery" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white text-xs bg-black/40 backdrop-blur-md p-3 rounded-xl border border-white/20">
+                                <p class="font-semibold"><i class="fa-solid fa-seedling text-pastelLeaf mr-1"></i> Wildflower Seed Covers</p>
+                                <p class="text-gray-200 text-[11px] mt-0.5">Plant the notebook cover once full to grow beautiful wildflowers!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide Controls / Navigation Dots -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex space-x-2">
+                    <button onclick="setHeroSlide(0)" id="slideDot-0" class="w-3 h-3 rounded-full bg-sage-600 transition-all"></button>
+                    <button onclick="setHeroSlide(1)" id="slideDot-1" class="w-3 h-3 rounded-full bg-gray-300 transition-all"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Propositions Feature Strip -->
+        <section class="bg-white border-b border-gray-100 py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="flex flex-col items-center p-2">
+                    <div class="w-10 h-10 rounded-full bg-sage-50 text-sage-600 flex items-center justify-center mb-2">
+                        <i class="fa-solid fa-recycle text-lg"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wide">100% Zero Waste</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Compostable & biodegradable</p>
+                </div>
+                <div class="flex flex-col items-center p-2">
+                    <div class="w-10 h-10 rounded-full bg-sage-50 text-sage-600 flex items-center justify-center mb-2">
+                        <i class="fa-solid fa-truck-fast text-lg"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wide">Carbon Free Delivery</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Offset emissions on every order</p>
+                </div>
+                <div class="flex flex-col items-center p-2">
+                    <div class="w-10 h-10 rounded-full bg-sage-50 text-sage-600 flex items-center justify-center mb-2">
+                        <i class="fa-solid fa-hand-holding-heart text-lg"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wide">Ethically Sourced</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Fair trade artisan partners</p>
+                </div>
+                <div class="flex flex-col items-center p-2">
+                    <div class="w-10 h-10 rounded-full bg-sage-50 text-sage-600 flex items-center justify-center mb-2">
+                        <i class="fa-solid fa-tree text-lg"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wide">1 Tree Planted</h4>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Per item purchased</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Visual Grid Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Explore Sustainable Categories</h2>
+                    <p class="text-xs text-gray-500 mt-1">Thoughtfully crafted alternatives for everyday conscious living</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                <div onclick="filterByCategory('Bamboo Products'); scrollToProducts()" class="cursor-pointer group relative rounded-2xl overflow-hidden h-40 shadow-sm hover:shadow-md transition-all">
+                    <img src="https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&w=500&q=80" alt="Bamboo Products" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Bamboo Essentials</h3>
+                            <p class="text-gray-200 text-[11px]">Bottles, brushes & cutlery</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="filterByCategory('Reusable Bags'); scrollToProducts()" class="cursor-pointer group relative rounded-2xl overflow-hidden h-40 shadow-sm hover:shadow-md transition-all">
+                    <img src="https://images.unsplash.com/photo-1597484662317-9bd7bdda2907?auto=format&fit=crop&w=500&q=80" alt="Reusable Bags" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Reusable Bags</h3>
+                            <p class="text-gray-200 text-[11px]">Cotton totes & mesh bags</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="filterByCategory('Reusable Stationery'); scrollToProducts()" class="cursor-pointer group relative rounded-2xl overflow-hidden h-40 shadow-sm hover:shadow-md transition-all">
+                    <img src="https://images.unsplash.com/photo-1585336261026-8f5786372960?auto=format&fit=crop&w=500&q=80" alt="Reusable Stationery" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Eco Stationery</h3>
+                            <p class="text-gray-200 text-[11px]">Seed journals & paper pens</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="filterByCategory('Eco Books'); scrollToProducts()" class="cursor-pointer group relative rounded-2xl overflow-hidden h-40 shadow-sm hover:shadow-md transition-all">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=500&q=80" alt="Eco Books" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Green Books</h3>
+                            <p class="text-gray-200 text-[11px]">Zero-waste literature</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Catalog Section -->
+        <section id="shopSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 scroll-mt-24">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-200 pb-4 mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <span id="activeCategoryTitle">All Products</span>
+                        <span id="productCountBadge" class="text-xs bg-sage-100 text-sage-700 px-2.5 py-0.5 rounded-full font-semibold">16 items</span>
+                    </h2>
+                    <p class="text-xs text-gray-500 mt-1">Ethical products rated highly by our sustainable community</p>
+                </div>
+
+                <!-- Category Pills (Desktop) -->
+                <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
+                    <button onclick="filterByCategory('All')" class="category-btn active px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap bg-sage-600 text-white transition-all">All</button>
+                    <button onclick="filterByCategory('Bamboo Products')" class="category-btn px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 transition-all">Bamboo</button>
+                    <button onclick="filterByCategory('Reusable Bags')" class="category-btn px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 transition-all">Bags</button>
+                    <button onclick="filterByCategory('Reusable Stationery')" class="category-btn px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 transition-all">Stationery</button>
+                    <button onclick="filterByCategory('Eco Books')" class="category-btn px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 transition-all">Books</button>
+                </div>
+            </div>
+
+            <!-- Filters Bar: Price Range + Sorting -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <!-- Price Range Filter -->
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <label for="priceRange" class="text-xs font-medium text-gray-700 whitespace-nowrap">
+                        Max Price: <span id="priceValue" class="font-bold text-sage-700">$35.00</span>
+                    </label>
+                    <input type="range" id="priceRange" min="5" max="35" step="1" value="35" oninput="handlePriceFilter(this.value)" class="w-full sm:w-48 accent-sage-600">
+                </div>
+
+                <!-- Sorting Selector -->
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <label for="sortBy" class="text-xs font-medium text-gray-700 whitespace-nowrap">Sort By:</label>
+                    <select id="sortBy" onchange="handleSort(this.value)" class="text-xs bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sage-500 font-medium text-gray-800">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Customer Rating</option>
+                    </select>
+
+                    <button onclick="resetFilters()" class="text-xs text-gray-500 hover:text-sage-600 underline ml-2 whitespace-nowrap">
+                        Reset Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic Javascript rendering will populate products here -->
+            </div>
+
+            <!-- Empty Search / Filter State -->
+            <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200 my-8">
+                <div class="w-16 h-16 bg-sage-50 text-sage-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800">No eco-friendly items found</h3>
+                <p class="text-xs text-gray-500 mt-1 max-w-md mx-auto">Try broadening your search term, adjusting the price range slider, or clearing your selected category filter.</p>
+                <button onclick="resetFilters()" class="mt-4 px-5 py-2.5 bg-sage-600 text-white text-xs font-medium rounded-full hover:bg-sage-700 transition-colors">
+                    Clear All Filters
+                </button>
+            </div>
+        </section>
+
+        <!-- Eco Impact Summary Banner -->
+        <section class="bg-sage-700 text-white py-14 my-10 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <span class="text-xs uppercase tracking-widest text-pastelLeaf font-bold">Our Collective Eco-Impact</span>
+                <h2 class="text-2xl sm:text-3xl font-bold mt-2">Small Changes, Infinite Impact</h2>
+                <p class="text-sage-100 text-xs sm:text-sm max-w-2xl mx-auto mt-2">Together with our global community of conscious consumers, we've achieved measurable plastic waste reduction.</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
+                    <div class="bg-sage-800/60 backdrop-blur-sm p-5 rounded-2xl border border-sage-600/50">
+                        <div class="text-3xl font-extrabold text-pastelLeaf">148,200+</div>
+                        <div class="text-xs text-sage-100 mt-1 font-medium">Single-Use Plastics Avoided</div>
+                    </div>
+                    <div class="bg-sage-800/60 backdrop-blur-sm p-5 rounded-2xl border border-sage-600/50">
+                        <div class="text-3xl font-extrabold text-pastelLeaf">12,450</div>
+                        <div class="text-xs text-sage-100 mt-1 font-medium">Trees Planted Worldwide</div>
+                    </div>
+                    <div class="bg-sage-800/60 backdrop-blur-sm p-5 rounded-2xl border border-sage-600/50">
+                        <div class="text-3xl font-extrabold text-pastelLeaf">38.4 Tons</div>
+                        <div class="text-xs text-sage-100 mt-1 font-medium">CO2 Emissions Offset</div>
+                    </div>
+                    <div class="bg-sage-800/60 backdrop-blur-sm p-5 rounded-2xl border border-sage-600/50">
+                        <div class="text-3xl font-extrabold text-pastelLeaf">100%</div>
+                        <div class="text-xs text-sage-100 mt-1 font-medium">Biodegradable Packaging</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-sage-600 uppercase tracking-widest">Community Love</span>
+                <h2 class="text-2xl font-bold text-gray-900 mt-1">What Eco-Conscious Shoppers Say</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-400 text-xs space-x-1 mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed italic">"The bamboo bottle and cutlery set replaced all my plastic items on work trips. Excellent durability and zero toxic smells!"</p>
+                    </div>
+                    <div class="mt-6 flex items-center gap-3 pt-4 border-t border-gray-50">
+                        <div class="w-9 h-9 rounded-full bg-sage-100 text-sage-700 font-bold flex items-center justify-center text-xs">ES</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-900">Emma S.</h4>
+                            <p class="text-[10px] text-gray-400">Verified Buyer • San Francisco</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-400 text-xs space-x-1 mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed italic">"The plantable seed journal is pure magic. Once I finished writing, I planted the cover and wildflowers sprouted in two weeks!"</p>
+                    </div>
+                    <div class="mt-6 flex items-center gap-3 pt-4 border-t border-gray-50">
+                        <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-xs">MR</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-900">Michael R.</h4>
+                            <p class="text-[10px] text-gray-400">Verified Buyer • London</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-amber-400 text-xs space-x-1 mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 text-xs leading-relaxed italic">"Order arrived in 100% plastic-free cardboard packaging with real paper tape. EVORA SUSTAINA sets the standard for eco shopping."</p>
+                    </div>
+                    <div class="mt-6 flex items-center gap-3 pt-4 border-t border-gray-50">
+                        <div class="w-9 h-9 rounded-full bg-pastelLeaf/40 text-sage-800 font-bold flex items-center justify-center text-xs">A.K</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-900">Aisha K.</h4>
+                            <p class="text-[10px] text-gray-400">Verified Buyer • Toronto</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-gray-800">
+                
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-sage-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-seedling text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold tracking-wider text-white uppercase">EVORA SUSTAINA</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Curating premium zero-waste, plastic-free alternatives that empower individuals to live sustainably without compromising on design or quality.
+                    </p>
+                    <div class="flex space-x-3 text-gray-400">
+                        <a href="#" class="hover:text-sage-500 transition-colors"><i class="fa-brands fa-instagram text-base"></i></a>
+                        <a href="#" class="hover:text-sage-500 transition-colors"><i class="fa-brands fa-facebook text-base"></i></a>
+                        <a href="#" class="hover:text-sage-500 transition-colors"><i class="fa-brands fa-pinterest text-base"></i></a>
+                        <a href="#" class="hover:text-sage-500 transition-colors"><i class="fa-brands fa-x-twitter text-base"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Category Links -->
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-white mb-4">Shop Collections</h3>
+                    <ul class="space-y-2.5 text-xs text-gray-400">
+                        <li><a href="#" onclick="filterByCategory('Bamboo Products'); scrollToProducts(); return false;" class="hover:text-white transition-colors">Bamboo Products</a></li>
+                        <li><a href="#" onclick="filterByCategory('Reusable Bags'); scrollToProducts(); return false;" class="hover:text-white transition-colors">Organic Reusable Bags</a></li>
+                        <li><a href="#" onclick="filterByCategory('Reusable Stationery'); scrollToProducts(); return false;" class="hover:text-white transition-colors">Plantable Seed Stationery</a></li>
+                        <li><a href="#" onclick="filterByCategory('Eco Books'); scrollToProducts(); return false;" class="hover:text-white transition-colors">Green Living Books</a></li>
+                        <li><a href="#" onclick="filterByCategory('All'); scrollToProducts(); return false;" class="hover:text-white transition-colors">New Sustainable Arrivals</a></li>
+                    </ul>
+                </div>
+
+                <!-- Sustainability Mission -->
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-white mb-4">Our Commitment</h3>
+                    <ul class="space-y-2.5 text-xs text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Plastic-Free Shipping Guarantee</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Tree Planting Partner Program</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Ethical Artisan Sourcing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Carbon Footprint Reports</a></li>
+                        <li><a href="#" onclick="toggleBackendModal(); return false;" class="text-sage-400 hover:underline">Developer & API Specs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Subscription -->
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-white mb-4">Join The Movement</h3>
+                    <p class="text-xs text-gray-400 mb-3">Subscribe for zero-waste tips, exclusive eco deals, and 10% off your first order.</p>
+                    <form onsubmit="handleNewsletterSubmit(event)" class="space-y-2">
+                        <div class="relative">
+                            <input type="email" id="newsletterEmail" required placeholder="Enter your email" 
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sage-500">
+                        </div>
+                        <button type="submit" class="w-full bg-sage-600 hover:bg-sage-700 text-white font-medium py-2 rounded-lg text-xs transition-colors">
+                            Subscribe & Get 10% Off
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright & Accepted Payment Badges -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+                <p>© 2026 EVORA SUSTAINA. All rights reserved. Zero-Waste E-Commerce Platform.</p>
+                <div class="flex items-center space-x-3 text-lg text-gray-400">
+                    <span class="text-[10px] text-gray-500 uppercase font-bold mr-1">Accepted Payments:</span>
+                    <i class="fa-brands fa-google-pay" title="Google Pay / UPI"></i>
+                    <i class="fa-brands fa-cc-visa" title="Visa Card"></i>
+                    <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+                    <i class="fa-solid fa-money-bill-transfer" title="Cash on Delivery"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OUT CART DRAWER OVERLAY -->
+    <div id="cartBackdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        
+        <!-- Cart Header -->
+        <div class="p-4 sm:p-6 border-b border-gray-100 flex items-center justify-between bg-sage-50">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-sage-600"></i>
+                <h3 class="font-bold text-gray-900 text-base">Your Eco Basket</h3>
+                <span id="cartDrawerCount" class="text-xs bg-sage-200 text-sage-800 px-2 py-0.5 rounded-full font-bold">0 items</span>
+            </div>
+            <button onclick="toggleCartDrawer()" class="p-2 text-gray-400 hover:text-gray-700 rounded-full hover:bg-white transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Free Shipping Progress Threshold -->
+        <div class="bg-sage-100/60 p-3 px-6 border-b border-sage-200/50">
+            <div class="flex justify-between text-xs font-semibold text-sage-800 mb-1">
+                <span id="shippingProgressText">Add $50.00 for FREE Eco Shipping</span>
+                <span id="shippingProgressPercent">0%</span>
+            </div>
+            <div class="w-full bg-white h-2 rounded-full overflow-hidden border border-sage-200">
+                <div id="shippingProgressBar" class="bg-sage-600 h-full w-0 transition-all duration-500"></div>
+            </div>
+        </div>
+
+        <!-- Cart Items List Container -->
+        <div id="cartItemsList" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-4">
+            <!-- Dynamic Cart Items Rendered Here -->
+        </div>
+
+        <!-- Cart Footer & Calculations -->
+        <div id="cartFooter" class="p-4 sm:p-6 border-t border-gray-100 bg-gray-50 space-y-3">
+            <!-- Coupon Code Input -->
+            <div class="flex gap-2">
+                <input type="text" id="couponInput" placeholder="Promo Code (Try ECO10)" class="flex-grow text-xs px-3 py-2 bg-white border border-gray-200 rounded-lg uppercase focus:outline-none focus:ring-1 focus:ring-sage-500">
+                <button onclick="applyCoupon()" class="bg-gray-800 hover:bg-gray-900 text-white text-xs px-4 py-2 rounded-lg font-medium transition-colors">Apply</button>
+            </div>
+            <div id="couponMessage" class="text-[11px] font-medium hidden"></div>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-1.5 text-xs text-gray-600 pt-2 border-t border-gray-200">
+                <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal" class="font-semibold text-gray-900">$0.00</span>
+                </div>
+                <div id="discountRow" class="flex justify-between text-sage-700 hidden">
+                    <span>Eco Discount (10%)</span>
+                    <span id="cartDiscount">-$0.00</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Est. Tax (8%)</span>
+                    <span id="cartTax">$0.00</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Eco Shipping</span>
+                    <span id="cartShipping">$5.99</span>
+                </div>
+                <div class="flex justify-between text-sm font-bold text-gray-900 pt-2 border-t border-gray-200">
+                    <span>Grand Total</span>
+                    <span id="cartGrandTotal" class="text-sage-700 text-base">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Checkout Action Button -->
+            <button onclick="openCheckoutModal()" id="checkoutButton" class="w-full bg-sage-600 hover:bg-sage-700 text-white font-bold py-3.5 rounded-xl shadow border border-sage-700 transition-all flex items-center justify-center gap-2 text-sm mt-2">
+                <span>Proceed to Checkout</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- PRODUCT QUICK VIEW / DETAILS MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl relative max-h-[90vh] flex flex-col md:flex-row">
+            <button onclick="closeProductModal()" class="absolute top-3 right-3 z-10 w-8 h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center text-gray-600 shadow">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="md:w-1/2 h-64 md:h-auto relative bg-gray-50">
+                <img id="modalProductImage" src="" alt="Product" class="w-full h-full object-cover">
+                <span id="modalEcoTag" class="absolute top-3 left-3 bg-sage-600 text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full shadow"></span>
+            </div>
+            <div class="md:w-1/2 p-6 flex flex-col justify-between overflow-y-auto">
+                <div>
+                    <span id="modalCategory" class="text-xs text-sage-600 font-semibold uppercase tracking-wider"></span>
+                    <h2 id="modalTitle" class="text-xl font-bold text-gray-900 mt-1"></h2>
+                    <div class="flex items-center gap-2 mt-2">
+                        <div id="modalRatingStars" class="flex text-amber-400 text-xs"></div>
+                        <span id="modalRatingText" class="text-xs text-gray-500 font-medium"></span>
+                    </div>
+                    <div class="text-2xl font-extrabold text-sage-700 mt-3" id="modalPrice"></div>
+                    <p id="modalDescription" class="text-xs text-gray-600 leading-relaxed mt-3 border-t border-b border-gray-100 py-3"></p>
+                    
+                    <div class="mt-4 bg-sage-50 p-3 rounded-xl border border-sage-100">
+                        <p class="text-xs font-bold text-sage-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-leaf text-sage-600"></i> Environmental Savings:
+                        </p>
+                        <p id="modalImpactText" class="text-xs text-sage-700 mt-1"></p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-gray-100 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-gray-700">Quantity:</span>
+                        <div class="flex items-center border border-gray-200 rounded-lg bg-gray-50">
+                            <button onclick="updateModalQty(-1)" class="px-3 py-1 text-gray-600 hover:bg-gray-200 rounded-l-lg font-bold">-</button>
+                            <span id="modalQty" class="px-3 text-xs font-bold text-gray-800">1</span>
+                            <button onclick="updateModalQty(1)" class="px-3 py-1 text-gray-600 hover:bg-gray-200 rounded-r-lg font-bold">+</button>
+                        </div>
+                    </div>
+                    <button id="modalAddToCartBtn" onclick="" class="w-full bg-sage-600 hover:bg-sage-700 text-white font-bold py-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL FLOW -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full my-8 overflow-hidden shadow-2xl relative">
+            <div class="p-4 sm:p-6 bg-sage-700 text-white flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-lg">EVORA SUSTAINA Express Checkout</h3>
+                    <p class="text-xs text-sage-200">100% Secure Carbon-Neutral Order Processing</p>
+                </div>
+                <button onclick="closeCheckoutModal()" class="text-white/80 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleOrderCheckout(event)" class="p-6 space-y-6">
+                <!-- Customer Information -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-sage-700 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-user-check"></i> 1. Shipping Details
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Full Name</label>
+                            <input type="text" required placeholder="Jane Doe" class="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-sage-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Email Address</label>
+                            <input type="email" required placeholder="jane@example.com" class="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-sage-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Phone Number</label>
+                            <input type="tel" required placeholder="+1 (555) 000-0000" class="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-sage-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Postal / Zip Code</label>
+                            <input type="text" required placeholder="10001" class="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-sage-500">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Delivery Address</label>
+                            <input type="text" required placeholder="123 Eco Way, Suite 4B" class="w-full text-xs px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-sage-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method Selection -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-sage-700 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-credit-card"></i> 2. Select Payment Method
+                    </h4>
+                    
+                    <div class="grid grid-cols-3 gap-3 mb-4">
+                        <label onclick="selectPaymentMethod('upi')" class="payment-tab cursor-pointer border-2 border-sage-600 bg-sage-50 p-3 rounded-xl flex flex-col items-center justify-center text-center transition-all">
+                            <i class="fa-solid fa-mobile-screen-button text-sage-700 text-lg mb-1"></i>
+                            <span class="text-xs font-bold text-gray-800">UPI / GPay</span>
+                        </label>
+                        <label onclick="selectPaymentMethod('card')" class="payment-tab cursor-pointer border border-gray-200 p-3 rounded-xl flex flex-col items-center justify-center text-center transition-all">
+                            <i class="fa-solid fa-credit-card text-gray-500 text-lg mb-1"></i>
+                            <span class="text-xs font-bold text-gray-800">Credit / Debit</span>
+                        </label>
+                        <label onclick="selectPaymentMethod('cod')" class="payment-tab cursor-pointer border border-gray-200 p-3 rounded-xl flex flex-col items-center justify-center text-center transition-all">
+                            <i class="fa-solid fa-hand-holding-dollar text-gray-500 text-lg mb-1"></i>
+                            <span class="text-xs font-bold text-gray-800">Cash on Delivery</span>
+                        </label>
+                    </div>
+
+                    <!-- Payment Inputs Conditional Container -->
+                    <div id="paymentFields" class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
+                        <!-- UPI Inputs -->
+                        <div id="upiPaymentBox" class="space-y-2">
+                            <p class="font-semibold text-gray-700">Enter Virtual Payment Address (UPI ID):</p>
+                            <input type="text" placeholder="username@upi / gpay / phonepe" class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-sage-500">
+                            <p class="text-[10px] text-gray-500"><i class="fa-solid fa-lock text-sage-600"></i> Supported: Google Pay, PhonePe, Paytm, BHIM</p>
+                        </div>
+
+                        <!-- Card Inputs -->
+                        <div id="cardPaymentBox" class="space-y-3 hidden">
+                            <div>
+                                <label class="block text-[10px] text-gray-600 font-semibold mb-1">Card Number</label>
+                                <input type="text" placeholder="4532 •••• •••• 8892" class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] text-gray-600 font-semibold mb-1">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY" class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-gray-600 font-semibold mb-1">CVV Security Code</label>
+                                    <input type="password" maxlength="4" placeholder="123" class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COD Inputs -->
+                        <div id="codPaymentBox" class="text-gray-600 hidden">
+                            <p class="font-medium text-gray-800 mb-1"><i class="fa-solid fa-circle-check text-sage-600 mr-1"></i> Cash on Delivery Selected</p>
+                            <p class="text-[11px]">Pay with cash or QR scanner upon package arrival. An additional verification SMS will be sent.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Order Summary Confirmation -->
+                <div class="pt-2 border-t border-gray-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] text-gray-500 block">Total Payable Amount</span>
+                        <span id="checkoutGrandTotal" class="text-xl font-extrabold text-sage-700">$0.00</span>
+                    </div>
+                    <button type="submit" class="bg-sage-600 hover:bg-sage-700 text-white font-bold px-8 py-3 rounded-xl shadow transition-all flex items-center gap-2">
+                        <span>Place Order</span>
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS CONFIRMATION RECEIPT MODAL -->
+    <div id="orderSuccessModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center shadow-2xl relative">
+            <div class="w-16 h-16 bg-sage-100 text-sage-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <span class="bg-sage-100 text-sage-800 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Order Confirmed</span>
+            <h2 class="text-2xl font-bold text-gray-900 mt-2">Thank You For Shopping Sustainably!</h2>
+            <p class="text-xs text-gray-500 mt-1">Your order has been recorded and scheduled for carbon-neutral delivery.</p>
+
+            <!-- Order Receipt Card -->
+            <div class="bg-sand p-4 rounded-xl border border-sage-100 text-left my-5 space-y-2 text-xs">
+                <div class="flex justify-between border-b border-gray-200 pb-2">
+                    <span class="text-gray-500">Order Reference ID:</span>
+                    <span id="receiptOrderId" class="font-mono font-bold text-sage-700">#EVR-89213</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Est. Delivery Date:</span>
+                    <span id="receiptDeliveryDate" class="font-semibold text-gray-800">3 - 5 Business Days</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Environmental Savings:</span>
+                    <span class="font-bold text-sage-600"><i class="fa-solid fa-tree mr-1"></i> +1 Tree Planted</span>
+                </div>
+                <div class="flex justify-between border-t border-gray-200 pt-2 font-bold text-gray-900 text-sm">
+                    <span>Total Charged:</span>
+                    <span id="receiptTotal" class="text-sage-700">$0.00</span>
+                </div>
+            </div>
+
+            <button onclick="closeOrderSuccessModal()" class="w-full bg-sage-600 hover:bg-sage-700 text-white font-bold py-3 rounded-xl transition-all shadow text-xs">
+                Continue Shopping EVORA SUSTAINA
+            </button>
+        </div>
+    </div>
+
+    <!-- TECH STACK & BACKEND ARCHITECTURE SPECS MODAL -->
+    <div id="backendModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden">
+        <div class="bg-gray-900 text-gray-100 rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden shadow-2xl flex flex-col">
+            <div class="p-4 bg-gray-800 flex items-center justify-between border-b border-gray-700">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-database text-sage-400"></i>
+                    <h3 class="font-bold text-sm text-white">EVORA SUSTAINA - Backend Architecture & SQL Schema</h3>
+                </div>
+                <button onclick="toggleBackendModal()" class="text-gray-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto font-mono text-xs space-y-4">
+                <div>
+                    <span class="text-sage-400 font-bold">// 1. SQL Database Relational Schema (PostgreSQL/MySQL)</span>
+                    <pre class="bg-black/60 p-3 rounded-lg border border-gray-800 text-gray-300 mt-1 overflow-x-auto">
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    rating DECIMAL(2,1) DEFAULT 5.0,
+    eco_impact_desc TEXT,
+    image_url TEXT,
+    stock INT DEFAULT 100
+);
+
+CREATE TABLE orders (
+    id VARCHAR(50) PRIMARY KEY,
+    user_email VARCHAR(150) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    tax DECIMAL(10,2) NOT NULL,
+    shipping DECIMAL(10,2) NOT NULL,
+    grand_total DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(20) NOT NULL,
+    status VARCHAR(30) DEFAULT 'PROCESSING',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</pre>
+                </div>
+
+                <div>
+                    <span class="text-amber-400 font-bold">// 2. REST API Endpoints (Node.js Express / Python Flask)</span>
+                    <div class="bg-black/60 p-3 rounded-lg border border-gray-800 text-gray-300 mt-1 space-y-1">
+                        <p><span class="text-green-400">GET</span> /api/v1/products - Fetch catalog with filtering & sorting query parameters</p>
+                        <p><span class="text-green-400">GET</span> /api/v1/products/:id - Fetch single product details</p>
+                        <p><span class="text-blue-400">POST</span> /api/v1/cart/checkout - Process order payment & decrease inventory stock</p>
+                        <p><span class="text-blue-400">POST</span> /api/v1/newsletter - Store eco newsletter subscriber email</p>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-pastelLeaf font-bold">// 3. Shopify & WooCommerce API Webhook Hooks Ready</span>
+                    <p class="text-gray-400 mt-1">This architecture maps directly to Shopify GraphQL Storefront API `checkoutCreate` and WooCommerce REST v3 order creation schemas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal Drawer -->
+    <div id="wishlistModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                <h3 class="font-bold text-gray-900 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-heart text-red-500"></i> Saved Wishlist Items
+                </h3>
+                <button onclick="toggleWishlistModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="wishlistItemsContainer" class="py-4 space-y-3 max-h-80 overflow-y-auto">
+                <!-- Dynamically populated wishlist items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Alert Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <script>
+        // Catalog Products Data Array
+        const PRODUCTS_DATA = [
+            {
+                id: 1,
+                title: "Organic Bamboo Toothbrush (4-Pack)",
+                category: "Bamboo Products",
+                price: 12.99,
+                rating: 4.9,
+                ratingCount: 142,
+                image: "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "100% Compostable",
+                ecoImpact: "Replaces 4 plastic toothbrushes from landfills.",
+                description: "Handcrafted with naturally antibacterial MOSO bamboo handles and soft castor oil bristles. Fully biodegradable design."
+            },
+            {
+                id: 2,
+                title: "Eco Travel Bamboo Cutlery & Straw Set",
+                category: "Bamboo Products",
+                price: 18.50,
+                rating: 4.8,
+                ratingCount: 98,
+                image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Zero-Waste Travel",
+                ecoImpact: "Prevents over 500 single-use plastic utensils per year.",
+                description: "Includes spoon, fork, knife, bamboo straw, and coconut fiber cleaning brush inside a organic cotton pouch."
+            },
+            {
+                id: 3,
+                title: "Insulated Bamboo Stainless Steel Water Bottle (500ml)",
+                category: "Bamboo Products",
+                price: 24.99,
+                rating: 5.0,
+                ratingCount: 210,
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "BPA-Free Vacuum",
+                ecoImpact: "Saves ~1,000 plastic water bottles annually.",
+                description: "Double-wall vacuum insulation with a real sustainable bamboo outer shell. Keeps drinks cold for 24h or hot for 12h."
+            },
+            {
+                id: 4,
+                title: "Bamboo Fiber Airtight Food Storage Container",
+                category: "Bamboo Products",
+                price: 21.00,
+                rating: 4.7,
+                ratingCount: 76,
+                image: "https://images.unsplash.com/photo-1585336261026-8f5786372960?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Non-Toxic Seal",
+                ecoImpact: "Replaces plastic Tupperware and food wrap.",
+                description: "Durable composite made from organic bamboo fiber and food-grade silicone ring seal. Dishwasher safe."
+            },
+            {
+                id: 5,
+                title: "Heavy-Duty Organic Cotton Canvas Tote Bag",
+                category: "Reusable Bags",
+                price: 16.00,
+                rating: 4.9,
+                ratingCount: 320,
+                image: "https://images.unsplash.com/photo-1597484662317-9bd7bdda2907?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "GOTS Certified",
+                ecoImpact: "Replaces 300+ disposable grocery bags.",
+                description: "Reinforced stitching and internal organizer pockets. Made from 100% unbleached organic cotton canvas."
+            },
+            {
+                id: 6,
+                title: "Zero-Waste Mesh Organic Produce Bags (6-Pack)",
+                category: "Reusable Bags",
+                price: 14.99,
+                rating: 4.8,
+                ratingCount: 185,
+                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Breathable Mesh",
+                ecoImpact: "Eliminates plastic produce film during shopping.",
+                description: "Includes 2 Small, 2 Medium, and 2 Large drawstring bags with tare weight labels for easy checkout."
+            },
+            {
+                id: 7,
+                title: "Expandable French Net Grocery Tote",
+                category: "Reusable Bags",
+                price: 11.50,
+                rating: 4.6,
+                ratingCount: 112,
+                image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Ultra Stretchable",
+                ecoImpact: "Compact, washable, and 100% plastic-free.",
+                description: "Classic European market shopper design that expands comfortably to carry up to 10kg of produce and bread."
+            },
+            {
+                id: 8,
+                title: "Insulated Recycled Cotton Lunch Cooler Bag",
+                category: "Reusable Bags",
+                price: 22.00,
+                rating: 4.9,
+                ratingCount: 89,
+                image: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Recycled Fabric",
+                ecoImpact: "Made from 8 post-consumer recycled cotton items.",
+                description: "Thermal lining keeps lunches fresh without toxic PEVA materials. Water-resistant outer shell."
+            },
+            {
+                id: 9,
+                title: "Plantable Wildflower Seed Journal",
+                category: "Reusable Stationery",
+                price: 15.99,
+                rating: 5.0,
+                ratingCount: 260,
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Embedded Seeds",
+                ecoImpact: "Grows into non-GMO flowers after journal completion.",
+                description: "Contains 100 pages of 100% recycled post-consumer paper with a seed-embedded plantable cover."
+            },
+            {
+                id: 10,
+                title: "Eco Recycled Kraft Paper Pens (Pack of 10)",
+                category: "Reusable Stationery",
+                price: 9.99,
+                rating: 4.7,
+                ratingCount: 140,
+                image: "https://images.unsplash.com/photo-1585336261026-8f5786372960?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "85% Less Plastic",
+                ecoImpact: "Biodegradable cardboard barrel replaces plastic pens.",
+                description: "Smooth writing dark soy-based ink with rolled kraft paper barrels."
+            },
+            {
+                id: 11,
+                title: "Undated Bamboo Hardcover Daily Planner",
+                category: "Reusable Stationery",
+                price: 19.50,
+                rating: 4.9,
+                ratingCount: 94,
+                image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Tree-Free Paper",
+                ecoImpact: "Saves trees through rapid-growth bamboo pulp.",
+                description: "Flexible goal-setting planner printed with non-toxic vegetable ink on thick bleed-resistant pages."
+            },
+            {
+                id: 12,
+                title: "Sprout Plantable Colored Pencils Set (8-Pack)",
+                category: "Reusable Stationery",
+                price: 13.00,
+                rating: 4.8,
+                ratingCount: 65,
+                image: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Herb Seeds Inside",
+                ecoImpact: "Plants basil, mint, and thyme when pencil gets short.",
+                description: "Non-toxic graphite and vibrant colored cores with seed capsules at the stub."
+            },
+            {
+                id: 13,
+                title: "Sustainable Living: The Zero Waste Handbook",
+                category: "Eco Books",
+                price: 18.99,
+                rating: 5.0,
+                ratingCount: 310,
+                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "100% Recycled Book",
+                ecoImpact: "Printed on FSC certified eco paper with soy ink.",
+                description: "A comprehensive step-by-step practical manual for eliminating waste in kitchen, fashion, and home."
+            },
+            {
+                id: 14,
+                title: "Braiding Sweetgrass by Robin Wall Kimmerer",
+                category: "Eco Books",
+                price: 17.50,
+                rating: 5.0,
+                ratingCount: 480,
+                image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Bestseller",
+                ecoImpact: "Inspires ecological stewardship and reciprocity.",
+                description: "Indigenous wisdom, scientific knowledge, and the teachings of plants for a healthier planet."
+            },
+            {
+                id: 15,
+                title: "The Climate Book by Greta Thunberg",
+                category: "Eco Books",
+                price: 22.00,
+                rating: 4.9,
+                ratingCount: 225,
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Global Perspective",
+                ecoImpact: "Features insight from over 100 climate experts.",
+                description: "Essential knowledge on global climate solutions, biodiversity preservation, and individual action."
+            },
+            {
+                id: 16,
+                title: "How to Give Up Plastic by Will McCallum",
+                category: "Eco Books",
+                price: 14.99,
+                rating: 4.8,
+                ratingCount: 110,
+                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80",
+                ecoTag: "Action Guide",
+                ecoImpact: "Practical roadmap to plastic-free daily life.",
+                description: "Greenpeace director's guide to replacing plastics in everyday routines and advocating community change."
+            }
+        ];
+
+        // Global App State Variables
+        let state = {
+            products: [...PRODUCTS_DATA],
+            filteredProducts: [...PRODUCTS_DATA],
+            cart: JSON.parse(localStorage.getItem('evora_cart')) || [],
+            wishlist: JSON.parse(localStorage.getItem('evora_wishlist')) || [],
+            currentCategory: 'All',
+            maxPrice: 35,
+            sortBy: 'featured',
+            searchQuery: '',
+            appliedDiscount: 0,
+            selectedPayment: 'upi',
+            activeModalQty: 1,
+            activeModalProduct: null
+        };
+
+        // Initialize App on DOM Loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI();
+            updateWishlistUI();
+            startHeroCarousel();
+        });
+
+        // LocalStorage Sync Helpers
+        function saveStateToStorage() {
+            localStorage.setItem('evora_cart', JSON.stringify(state.cart));
+            localStorage.setItem('evora_wishlist', JSON.stringify(state.wishlist));
+        }
+
+        // Add Item to Cart
+        function addToCart(productId, qty = 1) {
+            const product = PRODUCTS_DATA.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingIndex = state.cart.findIndex(item => item.id === productId);
+            if (existingIndex > -1) {
+                state.cart[existingIndex].quantity += qty;
+            } else {
+                state.cart.push({ ...product, quantity: qty });
+            }
+
+            saveStateToStorage();
+            updateCartUI();
+            showToast(`Added "${product.title}" to your basket!`, 'success');
+        }
+
+        // Update Item Quantity in Cart
+        function updateCartQty(productId, delta) {
+            const index = state.cart.findIndex(item => item.id === productId);
+            if (index > -1) {
+                state.cart[index].quantity += delta;
+                if (state.cart[index].quantity <= 0) {
+                    state.cart.splice(index, 1);
+                }
+            }
+            saveStateToStorage();
+            updateCartUI();
+        }
+
+        // Remove Item from Cart
+        function removeFromCart(productId) {
+            state.cart = state.cart.filter(item => item.id !== productId);
+            saveStateToStorage();
+            updateCartUI();
+            showToast('Item removed from basket', 'info');
+        }
+
+        // Calculate Cart Totals
+        function getCartTotals() {
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = subtotal * state.appliedDiscount;
+            const taxableAmount = subtotal - discountAmount;
+            const tax = taxableAmount * 0.08; // 8% tax rate
+            const shipping = (subtotal >= 50 || subtotal === 0) ? 0 : 5.99;
+            const grandTotal = taxableAmount + tax + shipping;
+
+            return { subtotal, discountAmount, tax, shipping, grandTotal };
+        }
+
+        // Update Cart Drawer UI Elements
+        function updateCartUI() {
+            const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Badges
+            document.getElementById('cartCountBadge').textContent = totalItems;
+            document.getElementById('cartDrawerCount').textContent = `${totalItems} items`;
+
+            const { subtotal, discountAmount, tax, shipping, grandTotal } = getCartTotals();
+
+            // Shipping Threshold Bar ($50 threshold)
+            const remainingForFreeShipping = Math.max(0, 50 - subtotal);
+            const shippingPercent = Math.min(100, (subtotal / 50) * 100);
+            
+            document.getElementById('shippingProgressBar').style.width = `${shippingPercent}%`;
+            document.getElementById('shippingProgressPercent').textContent = `${Math.round(shippingPercent)}%`;
+            
+            if (remainingForFreeShipping === 0 && subtotal > 0) {
+                document.getElementById('shippingProgressText').textContent = "🎉 You unlocked FREE Carbon-Neutral Shipping!";
+            } else {
+                document.getElementById('shippingProgressText').textContent = `Add $${remainingForFreeShipping.toFixed(2)} for FREE Eco Shipping`;
+            }
+
+            // Calculations Output
+            document.getElementById('cartSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cartTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('cartShipping').textContent = shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`;
+            document.getElementById('cartGrandTotal').textContent = `$${grandTotal.toFixed(2)}`;
+            document.getElementById('checkoutGrandTotal').textContent = `$${grandTotal.toFixed(2)}`;
+
+            if (state.appliedDiscount > 0) {
+                document.getElementById('discountRow').classList.remove('hidden');
+                document.getElementById('cartDiscount').textContent = `-$${discountAmount.toFixed(2)}`;
+            } else {
+                document.getElementById('discountRow').classList.add('hidden');
+            }
+
+            // Render Cart Item Cards
+            const container = document.getElementById('cartItemsList');
+            if (state.cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-sage-300"></i>
+                        <p class="text-xs font-semibold text-gray-600">Your basket is currently empty</p>
+                        <p class="text-[11px] text-gray-400 mt-1">Explore our sustainable collection to get started.</p>
+                    </div>
+                `;
+                document.getElementById('checkoutButton').disabled = true;
+                document.getElementById('checkoutButton').classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                document.getElementById('checkoutButton').disabled = false;
+                document.getElementById('checkoutButton').classList.remove('opacity-50', 'cursor-not-allowed');
+
+                container.innerHTML = state.cart.map(item => `
+                    <div class="flex items-center gap-3 bg-sand p-3 rounded-xl border border-sage-100">
+                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="flex-grow">
+                            <h4 class="text-xs font-bold text-gray-900 line-clamp-1">${item.title}</h4>
+                            <p class="text-[11px] text-sage-700 font-semibold mt-0.5">$${item.price.toFixed(2)}</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <div class="flex items-center border border-gray-200 rounded-md bg-white text-xs">
+                                    <button onclick="updateCartQty(${item.id}, -1)" class="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">-</button>
+                                    <span class="px-2 font-semibold text-gray-800">${item.quantity}</span>
+                                    <button onclick="updateCartQty(${item.id}, 1)" class="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">+</button>
+                                </div>
+                                <button onclick="removeFromCart(${item.id})" class="text-[11px] text-red-500 hover:underline">Remove</button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold text-gray-900">$${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Promo Code Verification
+        function applyCoupon() {
+            const input = document.getElementById('couponInput').value.trim().toUpperCase();
+            const msgBox = document.getElementById('couponMessage');
+            
+            if (input === 'ECO10') {
+                state.appliedDiscount = 0.10;
+                msgBox.classList.remove('hidden', 'text-red-500');
+                msgBox.classList.add('text-sage-700');
+                msgBox.textContent = "✓ Promo code ECO10 applied! 10% discount subtracted.";
+                updateCartUI();
+            } else {
+                msgBox.classList.remove('hidden', 'text-sage-700');
+                msgBox.classList.add('text-red-500');
+                msgBox.textContent = "Invalid code. Use code ECO10 for 10% off.";
+            }
+        }
+
+        // Filter Products & Render Cards
+        function filterByCategory(category) {
+            state.currentCategory = category;
+            
+            // Update Tab UI States
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.textContent.trim().toLowerCase() === category.toLowerCase() || (category === 'All' && btn.textContent.trim() === 'All')) {
+                    btn.classList.add('bg-sage-600', 'text-white');
+                    btn.classList.remove('bg-white', 'text-gray-700');
+                } else {
+                    btn.classList.remove('bg-sage-600', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-700');
+                }
+            });
+
+            document.getElementById('activeCategoryTitle').textContent = category === 'All' ? 'All Products' : category;
+            applyFilters();
+        }
+
+        function handleSearch() {
+            state.searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+            applyFilters();
+        }
+
+        function handleSearchMobile() {
+            state.searchQuery = document.getElementById('mobileSearchInput').value.trim().toLowerCase();
+            applyFilters();
+        }
+
+        function handlePriceFilter(val) {
+            state.maxPrice = parseFloat(val);
+            document.getElementById('priceValue').textContent = `$${state.maxPrice.toFixed(2)}`;
+            applyFilters();
+        }
+
+        function handleSort(val) {
+            state.sortBy = val;
+            applyFilters();
+        }
+
+        function resetFilters() {
+            state.searchQuery = '';
+            state.maxPrice = 35;
+            state.currentCategory = 'All';
+            state.sortBy = 'featured';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('mobileSearchInput').value = '';
+            document.getElementById('priceRange').value = 35;
+            document.getElementById('priceValue').textContent = '$35.00';
+            document.getElementById('sortBy').value = 'featured';
+            filterByCategory('All');
+        }
+
+        function applyFilters() {
+            let list = PRODUCTS_DATA.filter(p => {
+                const matchesCategory = state.currentCategory === 'All' || p.category === state.currentCategory;
+                const matchesSearch = p.title.toLowerCase().includes(state.searchQuery) || p.description.toLowerCase().includes(state.searchQuery);
+                const matchesPrice = p.price <= state.maxPrice;
+                return matchesCategory && matchesSearch && matchesPrice;
+            });
+
+            // Sorting Logic
+            if (state.sortBy === 'price-low') {
+                list.sort((a, b) => a.price - b.price);
+            } else if (state.sortBy === 'price-high') {
+                list.sort((a, b) => b.price - a.price);
+            } else if (state.sortBy === 'rating') {
+                list.sort((a, b) => b.rating - a.rating);
+            }
+
+            state.filteredProducts = list;
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const noRes = document.getElementById('noResults');
+            document.getElementById('productCountBadge').textContent = `${state.filteredProducts.length} items`;
+
+            if (state.filteredProducts.length === 0) {
+                grid.innerHTML = '';
+                noRes.classList.remove('hidden');
+                return;
+            } else {
+                noRes.classList.add('hidden');
+            }
+
+            grid.innerHTML = state.filteredProducts.map(p => {
+                const isWishlisted = state.wishlist.some(id => id === p.id);
+                return `
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                    <div class="relative overflow-hidden aspect-square bg-sand">
+                        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x600/E8F5E9/2E7D32?text=EVORA+Eco+Product'">
+                        <span class="absolute top-3 left-3 bg-sage-700/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">
+                            ${p.ecoTag}
+                        </span>
+                        
+                        <button onclick="toggleWishlist(${p.id})" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center text-gray-600 transition-colors shadow">
+                            <i class="${isWishlisted ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart text-sm"></i>
+                        </button>
+
+                        <button onclick="openProductModal(${p.id})" class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white/90 hover:bg-white text-gray-800 text-xs font-semibold px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-md duration-300">
+                            Quick View
+                        </button>
+                    </div>
+
+                    <div class="p-4 flex-grow flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-semibold text-sage-600 uppercase tracking-wider block mb-1">${p.category}</span>
+                            <h3 onclick="openProductModal(${p.id})" class="text-sm font-bold text-gray-900 group-hover:text-sage-600 transition-colors cursor-pointer line-clamp-1">${p.title}</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description}</p>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between">
+                            <div>
+                                <span class="text-base font-extrabold text-gray-900">$${p.price.toFixed(2)}</span>
+                                <div class="flex items-center text-amber-400 text-[10px] space-x-1 mt-0.5">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="font-bold text-gray-700">${p.rating}</span>
+                                    <span class="text-gray-400">(${p.ratingCount})</span>
+                                </div>
+                            </div>
+
+                            <button onclick="addToCart(${p.id})" class="bg-sage-600 hover:bg-sage-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-plus text-[10px]"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        // Modal Controls & Interactions
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartBackdrop');
+            const isOpen = !drawer.classList.contains('translate-x-full');
+
+            if (isOpen) {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function openProductModal(productId) {
+            const product = PRODUCTS_DATA.find(p => p.id === productId);
+            if (!product) return;
+
+            state.activeModalProduct = product;
+            state.activeModalQty = 1;
+
+            document.getElementById('modalProductImage').src = product.image;
+            document.getElementById('modalCategory').textContent = product.category;
+            document.getElementById('modalTitle').textContent = product.title;
+            document.getElementById('modalPrice').textContent = `$${product.price.toFixed(2)}`;
+            document.getElementById('modalDescription').textContent = product.description;
+            document.getElementById('modalEcoTag').textContent = product.ecoTag;
+            document.getElementById('modalImpactText').textContent = product.ecoImpact;
+            document.getElementById('modalRatingText').textContent = `${product.rating} / 5.0 (${product.ratingCount} reviews)`;
+            document.getElementById('modalQty').textContent = '1';
+
+            // Stars rendering
+            const starsContainer = document.getElementById('modalRatingStars');
+            starsContainer.innerHTML = Array.from({length: 5}).map((_, i) => 
+                `<i class="fa-solid fa-star ${i < Math.floor(product.rating) ? 'text-amber-400' : 'text-gray-200'}"></i>`
+            ).join('');
+
+            document.getElementById('modalAddToCartBtn').onclick = () => {
+                addToCart(product.id, state.activeModalQty);
+                closeProductModal();
+            };
+
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function updateModalQty(delta) {
+            state.activeModalQty = Math.max(1, state.activeModalQty + delta);
+            document.getElementById('modalQty').textContent = state.activeModalQty;
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (state.cart.length === 0) return;
+            toggleCartDrawer();
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function selectPaymentMethod(type) {
+            state.selectedPayment = type;
+            document.getElementById('upiPaymentBox').classList.toggle('hidden', type !== 'upi');
+            document.getElementById('cardPaymentBox').classList.toggle('hidden', type !== 'card');
+            document.getElementById('codPaymentBox').classList.toggle('hidden', type !== 'cod');
+        }
+
+        function handleOrderCheckout(e) {
+            e.preventDefault();
+            const { grandTotal } = getCartTotals();
+
+            // Generate Random Receipt Reference ID
+            const orderId = '#EVR-' + Math.floor(10000 + Math.random() * 90000);
+            
+            document.getElementById('receiptOrderId').textContent = orderId;
+            document.getElementById('receiptTotal').textContent = `$${grandTotal.toFixed(2)}`;
+
+            closeCheckoutModal();
+            
+            // Clear Cart
+            state.cart = [];
+            state.appliedDiscount = 0;
+            saveStateToStorage();
+            updateCartUI();
+
+            document.getElementById('orderSuccessModal').classList.remove('hidden');
+        }
+
+        function closeOrderSuccessModal() {
+            document.getElementById('orderSuccessModal').classList.add('hidden');
+        }
+
+        // Wishlist System
+        function toggleWishlist(productId) {
+            const index = state.wishlist.indexOf(productId);
+            if (index > -1) {
+                state.wishlist.splice(index, 1);
+                showToast('Removed item from Wishlist', 'info');
+            } else {
+                state.wishlist.push(productId);
+                showToast('Saved item to Wishlist ❤️', 'success');
+            }
+            saveStateToStorage();
+            updateWishlistUI();
+            renderProducts();
+        }
+
+        function updateWishlistUI() {
+            const badge = document.getElementById('wishlistCountBadge');
+            badge.textContent = state.wishlist.length;
+            if (state.wishlist.length > 0) {
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            const container = document.getElementById('wishlistItemsContainer');
+            if (state.wishlist.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-500 text-center py-6">Your wishlist is currently empty.</p>';
+            } else {
+                const wishlistProducts = PRODUCTS_DATA.filter(p => state.wishlist.includes(p.id));
+                container.innerHTML = wishlistProducts.map(p => `
+                    <div class="flex items-center justify-between bg-sand p-3 rounded-xl border border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-12 h-12 object-cover rounded-lg">
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-900">${p.title}</h4>
+                                <span class="text-xs font-semibold text-sage-700">$${p.price.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="addToCart(${p.id}); toggleWishlist(${p.id})" class="text-xs bg-sage-600 text-white px-3 py-1.5 rounded-lg font-medium">Add to Cart</button>
+                            <button onclick="toggleWishlist(${p.id})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash text-xs"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleWishlistModal() {
+            const modal = document.getElementById('wishlistModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function toggleBackendModal() {
+            const modal = document.getElementById('backendModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsletterEmail').value;
+            showToast(`Thank you! 10% discount code sent to ${email}`, 'success');
+            document.getElementById('newsletterEmail').value = '';
+        }
+
+        function scrollToProducts() {
+            document.getElementById('shopSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Hero Carousel Logic
+        let currentHeroSlide = 0;
+        function setHeroSlide(index) {
+            currentHeroSlide = index;
+            document.querySelectorAll('.hero-slide').forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.remove('opacity-0', 'pointer-events-none');
+                    slide.classList.add('opacity-100');
+                } else {
+                    slide.classList.add('opacity-0', 'pointer-events-none');
+                    slide.classList.remove('opacity-100');
+                }
+            });
+
+            document.getElementById('slideDot-0').className = index === 0 ? "w-3 h-3 rounded-full bg-sage-600 transition-all" : "w-3 h-3 rounded-full bg-gray-300 transition-all";
+            document.getElementById('slideDot-1').className = index === 1 ? "w-3 h-3 rounded-full bg-sage-600 transition-all" : "w-3 h-3 rounded-full bg-gray-300 transition-all";
+        }
+
+        function startHeroCarousel() {
+            setInterval(() => {
+                currentHeroSlide = (currentHeroSlide + 1) % 2;
+                setHeroSlide(currentHeroSlide);
+            }, 6000);
+        }
+
+        // Custom Toast System
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-lg text-xs font-semibold text-white flex items-center gap-2 transform transition-all duration-300 translate-y-2 opacity-0 ${type === 'success' ? 'bg-sage-700' : 'bg-gray-800'}`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-leaf text-pastelLeaf' : 'fa-circle-info'}"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
